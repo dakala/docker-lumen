@@ -1,5 +1,8 @@
 # Docker + Lumen with Nginx and MySQL
 
+## Studee Code Challenge branch: `code-challenge`. Please checkout that branch instead of `master`.
+
+
 ![image](Lumen_splash.png)
 
 This setup is great for writing quick apps in PHP using Lumen from an any Docker client. It uses docker-compose to setup the application services.
