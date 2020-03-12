@@ -1,0 +1,179 @@
+#%RAML 1.0
+title: BC Events API
+version: v1
+baseUri: http://api.samplehost.com
+types:
+  Event:
+    type: object
+    properties:
+      name: string
+      description: string
+      url: string
+      capacity?: number
+      price?: number
+      currency?: string
+      category_id: number
+      logo_id: number
+      venue_id: number
+      organizer_id: number
+      format_id: number
+      status: string
+      start: datetime
+      end: datetime
+      changed: datetime
+
+    examples:
+      hockney:
+        name: Art exhibition
+        description: David Hockney's perfect exhibition
+        url: http://www.britishcouncil.org/arts/hockney
+        capacity: 50
+        price: 20.00
+        currency: GBP
+        category_id: 1
+        logo_id: 2
+        venue_id: 3
+        organizer_id: 1
+        format_id: 2
+        status: ACTIVE
+        start: 2017-11-01T09:00:00Z
+        end: 2017-12-31T17:00:00Z
+        changed: 2017-02-15T07:00:00Z
+
+  Category:
+    type: object
+    properties:
+      name: string
+      short_name: string
+      description?: string
+
+  Logo:
+    type: object
+    properties:
+      id: number
+      url: string
+
+  Venue:
+    type: object
+    properties:
+      name: string
+      short_name: string
+      description?: string
+      longitude?: string
+      latitude?: string
+      address: string
+
+  Format:
+    properties:
+      name: string
+      short_name: string
+      description?: string
+
+  Organizer:
+    type: object
+    properties:
+      name: string
+      short_name: string
+      description?: string
+      url?: string
+    examples:
+      bc:
+        name: British Council
+        short_name: BC
+        description: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        url: http://www.britishcouncil.org
+resourceTypes:
+  Collection:
+    description: Collection of available <<resourcePathName>>.
+    
+    get:
+      description: Get a list of <<resourcePathName>>.
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<item>>[]
+    post:
+      description: Add a new <<resourcePathName|!singularize>> to collection.
+      body:
+        application/json:
+          type: <<item>>
+  Member:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                <<item>>
+        404:
+          body:
+            application/json:
+              example: |
+                message: <<resourcePathName|!singularize>> not found.
+
+    put:
+      description: Update a single <<resourcePathName|!singularize>> in collection.
+      body:
+        application/json:
+          type: <<item>>
+    delete:
+      description: Delete a single <<resourcePathName|!singularize>> from collection.
+      responses:
+        204:
+
+traits:
+  FilterableByPrice:
+    queryParameters:
+      priceLessThan?:
+        type: number
+      priceMoreThan?:
+        type: number
+
+  FilterableByDate:
+    queryParameters:
+      startDateLessThan?:
+        type: datetime
+      startDateGreaterThan?:
+        type: datetime
+      endDateLessThan?:
+        type: datetime
+      endDateGreaterThan?:
+        type: datetime
+
+/events:
+  type:  { Collection: {item : Event} }
+  get:
+    queryParameters:
+    is: [FilterableByPrice, FilterableByDate]
+  /{id}:
+    type:  { Member: {item : Event} }
+
+/categories:
+  type:  { Collection: {item : Category} }
+  /{id}:
+    type:  { Member: {item : Category} }
+    /events:
+      type: {  { Collection: {item : Event} }}
+
+/logos:
+  type:  { Collection: {item : Logo} }
+  /{id}:
+    type:  { Member: {item : Logo} }
+
+/venues:
+  type:  { Collection: {item : Venue} }
+  /{id}:
+    type:  { Member: {item : Venue} }
+    /events:
+      type: { Collection: {item : Event} }
+
+/formats:
+  type:  { Collection: {item : Format} }
+  /{id}:
+    type:  { Member: {item : Format} }
+
+/organizers:
+  type:  { Collection: {item : Organizer} }
+  /{id}:
+    type:  { Member: {item : Organizer} }

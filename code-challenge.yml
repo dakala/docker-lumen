@@ -1,0 +1,93 @@
+openapi: 3.0.0
+info:
+  description: An example API for a code challenge from Studee
+  version: "1.0.0"
+  title: Code Challenge API
+  contact:
+    email: dejiakala@gmail.com
+tags:
+  - name: segments
+    description: Calls for managing Segments
+paths:
+  /segments:
+    get:
+      summary: List all segments
+      operationId: listSegments
+      tags:
+        - segments
+      responses:
+        "200":
+          description: Array of segments
+          schema:
+            $ref: '#/definitions/Segments'
+    post:
+      summary: Create a segment
+      operationId: createSegments
+      tags:
+        - segments
+      responses:
+        "201":
+          description: Null response
+  /segments/{segmentId}:
+    get:
+      summary: Details of a specific segment
+      operationId: showSegmentById
+      tags:
+        - segments
+      parameters:
+        - name: segmentId
+          in: path
+          required: true
+          description: The id of the segment to fetch
+          type: string
+      responses:
+        "200":
+          description: The expected response to a valid request
+          schema:
+            $ref: '#/definitions/Segments'
+    delete:
+      summary: Remove a specific segment
+      operationId: deleteSegmentById
+      tags:
+        - segments
+      parameters:
+        - name: segmentId
+          in: path
+          required: true
+          description: The id of the segment to delete
+          type: string
+      responses:
+        "200":
+          description: The expected response to a valid request
+          schema:
+            $ref: '#/definitions/Segments'
+definitions:
+  Segment:
+    type: "object"
+    required:
+      - id
+      - segment
+      - segment_name
+    properties:
+      id:
+        type: integer
+        format: int
+      name:
+        type: string
+      segment_name:
+        type: string
+  Segments:
+    type: array
+    items:
+      $ref: '#/definitions/Segment'
+  Error:
+    type: "object"
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
