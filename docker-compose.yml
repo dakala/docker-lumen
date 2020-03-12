@@ -4,7 +4,7 @@ nginx:
   links:
     - php
   ports:
-    - "80:80"
+    - "8080:80"
 php:
   build: images/php
   volumes:
@@ -19,7 +19,7 @@ php:
   environment:
     APP_ENV: local
     APP_DEBUG: 'true'
-    APP_KEY: SomeRandomKey!!!
+    APP_KEY: f4c34208-3b0b-487d-90e2-5f701ffd5526
     APP_LOCALE: en
     APP_FALLBACK_LOCALE: en
     DB_CONNECTION: mysql
@@ -30,9 +30,10 @@ php:
     MEMCACHED_HOST: cache
     CACHE_DRIVER: memcached
 db:
-  image: mysql
+  image: mysql:5.7
+  restart: always
   ports:
-    - "3306:3306"
+    - "33060:3306"
   environment:
     MYSQL_ROOT_PASSWORD: secret
     MYSQL_DATABASE: lumen
