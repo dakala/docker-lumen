@@ -46,7 +46,7 @@ This setup of Docker, Lumen micro-framework, Nginx and MySQL uses docker-compose
    ```
    The `artisan` command provided by Lumen/Laravel needs to be run from the root of the application for this demo. It creates MySQL database tables and migrates data from CSV file into them.
 
-6. Use the API with your favourite HTTP client e.g. Postman
+6. Use the API with your favourite HTTP client e.g. Postman. The application is served from `http://localhost:8080`.
 
 7. When done, exit the container and stop all containers with:
 
