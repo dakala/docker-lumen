@@ -67,7 +67,6 @@ This setup of Docker, Lumen micro-framework, Nginx and MySQL uses docker-compose
 
 The application provides the following routes:
 
-<pre>
 +----------+---------------------------------------------------+--------------------------------------------------------------------------+
 | Method   | URI                                               | Action                                                                   |
 +----------+---------------------------------------------------+--------------------------------------------------------------------------+
@@ -96,7 +95,6 @@ The application provides the following routes:
 | DELETE   | segments/{id}                                     | App\Http\Controllers\SegmentController@destroy                           |
 | GET|HEAD | segments/{segmentId}/families                     | App\Http\Controllers\FamilyController@familiesBySegmentId                |
 +----------+---------------------------------------------------+---------------------------------------------------------------------------
-</pre>
 
 
 ## TODOS?
