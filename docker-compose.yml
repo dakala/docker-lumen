@@ -31,7 +31,6 @@ php:
     CACHE_DRIVER: memcached
 db:
   image: mysql:5.7
-  restart: no
   ports:
     - "33060:3306"
   environment:
